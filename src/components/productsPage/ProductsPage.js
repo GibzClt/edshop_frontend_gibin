@@ -13,14 +13,58 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import products from '../../assets/products.json';
-import {Select, MenuItem} from "@mui/material"
+import {Select, MenuItem, InputLabel} from "@mui/material"
 
 function ProductsPage({isAdmin}){
-  const categories = ['All', 'Apparel', 'Electronics', 'Footwear', 'Personal Care'];
   const [toggleValue, setToggleValue] = useState('All');
   const [selectValue, setSelectValue] = useState('default');
-  
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState(['All']);
+
+  useEffect(()=>{
+    const url = "http://localhost:8000/api/products/categories";
+    fetch(url)
+      .then(response=>response.json())
+      .then(res=>setCategories([...categories, ...res]));
+  }, [])
+
+  useEffect(()=>{
+    switch(selectValue){
+      case "price-ltoh" : handleSortFetch("price", "ASC");
+      break;
+      case "price-htol" : handleSortFetch("price", "DESC");
+      break;
+      case "default" : handleSortFetch(null, null);
+      break;
+      case "newest" : handleSortFetch("createdAt", "DESC");
+      break;
+      default : return null;
+    }
+  },[selectValue])
+
+  useEffect(()=>{
+    toggleValue === "All" ? handleCategoryFetch(null) : handleCategoryFetch(toggleValue);
+  }, [toggleValue])
+
+  const handleSortFetch=(type, value)=>{
+    const url = `http://localhost:8000/api/products`;
+    let urlToSend = type ? `${url}?sortBy=${type}&direction=${value}` : url;
+    if(toggleValue !== "All"){
+      urlToSend = type ? `${url}?category=${toggleValue}&sortBy=${type}&direction=${value}` : url;
+    }
+    fetch(urlToSend)
+      .then(response=>response.json())
+      .then(res=>setProducts(res.content));
+  }
+
+  const handleCategoryFetch=(category)=>{
+    const url = `http://localhost:8000/api/products`;
+    const urlToSend = category ? `${url}?category=${category}` : url;
+    fetch(urlToSend)
+      .then(response=>response.json())
+      .then(res=>setProducts(res.content));
+  }
+
   const handleChange=(event, type)=>{
     const {value} = event.target;
     type === "toggle" ? setToggleValue(value) : setSelectValue(value);
@@ -32,15 +76,19 @@ function ProductsPage({isAdmin}){
         <div id="toggle-btn-container">
           <ToggleButtonGroup exclusive={true} value={toggleValue} onChange={e=>handleChange(e,"toggle")}>
             {categories.map(item=>(
-              <ToggleButton value={item}>{item}</ToggleButton>
+              <ToggleButton key={item} value={item}>{item}</ToggleButton>
             ))}
           </ToggleButtonGroup>
         </div>
         <div id="select-container">
+          <InputLabel htmlFor="select-input" sx={{fontWeight : 500}}>Sort By : </InputLabel>
           <Select
             sx={{width : "20%"}}
             onChange={e=>handleChange(e,"select")}
             value={selectValue}
+            inputProps={{
+              'id' : "select-input"
+            }}
           >
             <MenuItem value="default">Default</MenuItem>
             <MenuItem value="price-htol">Price : High to Low</MenuItem>
