@@ -1,0 +1,77 @@
+[{
+  "_id": {
+    "$oid": "60bd4af2d1bbe10224740025"
+  },
+  "productId": 1,
+  "name": "Levi Strauss Jeans",
+  "category": "Apparel",
+  "manufacturer": "Levis",
+  "availableItems": 8,
+  "price": 1000,
+  "imageURL": "https://storage.sg.content-cdn.io/cdn-cgi/image/width=600,height=800,quality=60,format=auto,fit=cover,g=top/in-resources/22a79ec5-e694-4d7a-ac5a-85c8fa45b7f1/Images/ProductImages/Source/ITMDN00486Dark%20Wash_1nw.Jpg",
+  "description": "slim fit stretch jeans offers comfort with style. Made with high-quality material of cotton lycra and superior stitching for excellent fit, comfort and a stylish look."
+},{
+  "_id": {
+    "$oid": "60bd4f9785222041687c803e"
+  },
+  "productId": 2,
+  "name": "iPhone 12",
+  "category": "Electronics",
+  "manufacturer": "Apple",
+  "availableItems": 148,
+  "price": 100000,
+  "imageURL": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcT7VlKtbpuU2I9T5oQT-BwMAmXChfNs8smx4XtsqqMAjqhYLkfP0SNEcRDvFTxlCCsFMXD3o-SxNK4&usqp=CAc",
+  "description": "A14 Bionic, the fastest chip in a smartphone. An edge-to-edge OLED display."
+},{
+  "_id": {
+    "$oid": "60bdc748f4b8540be02b7fd8"
+  },
+  "productId": 3,
+  "name": "automotive product",
+  "category": "Automotive",
+  "manufacturer": "Automotive manufacturer",
+  "availableItems": 2440,
+  "price": 1000,
+  "imageURL": "https://5.imimg.com/data5/SELLER/Default/2020/8/IV/VS/ND/30769763/lifebuoy-240-ml-sanitizer-500x500.jpg",
+  "description": "This is a wonderful automotive product",
+  "imageUrl": "image url",
+  "updatedAt": {
+    "$date": "2021-10-26T15:54:38.298Z"
+  }
+},{
+  "_id": {
+    "$oid": "60bdfc998c5e4d37003b7893"
+  },
+  "productId": 4,
+  "name": "boAt Airdopes 131",
+  "category": "Electronics",
+  "manufacturer": "Boat",
+  "availableItems": 96,
+  "price": 1299,
+  "imageURL": "https://rukminim1.flixcart.com/image/416/416/kmccosw0/headphone/g/7/j/airdopes-131-boat-original-imagf9n3rhpwq252.jpeg?q=70",
+  "description": "Bring home the boAt Airdopes 131 that comes with a carrying case. "
+},{
+  "_id": {
+    "$oid": "60be0da58c5e4d37003b789d"
+  },
+  "productId": 5,
+  "name": "EMERGO RUNNER Running Shoes ",
+  "category": "Apparel",
+  "manufacturer": "Reebok",
+  "availableItems": 98,
+  "price": 1500,
+  "imageURL": "https://rukminim1.flixcart.com/image/800/960/knxiavk0/shoe/a/r/b/6-hkz70-7-reebok-smoky-indigo-vector-original-imag2hwk8h5xq6a3.jpeg?q=50",
+  "description": "Unique new design with an amalgamation of PU and textile mesh. PU at the rearfoot for motion and protection. Full EVA outsole responsible for traction and responsiveness."
+},{
+  "_id": {
+    "$oid": "60be77ca1683603820d04db5"
+  },
+  "productId": 6,
+  "name": "Comfortable Chair",
+  "category": "Furniture",
+  "manufacturer": "Nilkamal",
+  "availableItems": 10,
+  "price": 10000,
+  "imageURL": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTz_U_RFgmlxkQ5Qy4X3jB31VONopWISp5fbFTK7hJGh0o0xi9FgkiiIEZ8cU45yHBqxwKmdktsWMo&usqp=CAc",
+  "description": ""
+}]
