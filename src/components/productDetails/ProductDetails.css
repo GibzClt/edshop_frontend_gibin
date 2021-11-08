@@ -47,7 +47,7 @@
 }
 
 #price::before{
-  content: "Rs";
+  content: "\20B9";
 }
 
 #product-name{
