@@ -15,6 +15,8 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {Select, MenuItem, InputLabel} from "@mui/material"
 
+
+
 function ProductsPage({isAdmin}){
   const [toggleValue, setToggleValue] = useState('All');
   const [selectValue, setSelectValue] = useState('default');
@@ -67,6 +69,13 @@ function ProductsPage({isAdmin}){
     type === "toggle" ? setToggleValue(value) : setSelectValue(value);
   }
 
+  const handleClick=(id)=>{
+    const url = `http://localhost:8000/api/products/${id}`;
+    fetch(url)
+      .then(response=>response.json())
+      .then(res=>console.log(res));       
+  }
+
   return(
     <>
       <NavigationBar setSearchValue={setName} searchValue={name} />
@@ -95,7 +104,7 @@ function ProductsPage({isAdmin}){
         </div>
         <Grid id="grid-container" container columns={8} columnSpacing={5} rowSpacing={5}>
           {products.map(item=>(
-            <Grid item lg={2} md={2} xs={2} sx={{display : "flex"}} >
+            <Grid key={item.productId} item lg={2} md={2} xs={2} sx={{display : "flex"}} >
                 <Card sx={{display: 'flex', flexDirection: 'column'}}>
                   <div>
                   <CardMedia
@@ -111,7 +120,7 @@ function ProductsPage({isAdmin}){
                         {item.name}
                       </Typography>
                       <Typography gutterBottom variant="h5" component="div">
-                        {`Rs ${item.price}`}
+                        <>&#8377;</>{`${item.price}`}
                       </Typography>
                     </div>
                     <Typography variant="body2" color="text.secondary">
@@ -120,7 +129,12 @@ function ProductsPage({isAdmin}){
                   </CardContent>
                   <CardActions sx={{marginTop : "auto"}}>
                       <div className="btns-container">
-                        <Button variant="contained" size="small">Buy</Button>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          onClick={()=>handleClick(item.productId)}
+                        >Buy
+                        </Button>
                         {isAdmin && 
                         <ButtonGroup variant="string">
                           <Button size="small"><EditIcon /></Button>
