@@ -114,7 +114,7 @@ function ProductsPage({isAdmin}){
                         {item.name}
                       </Typography>
                       <Typography gutterBottom variant="h5" component="div">
-                        {`Rs ${item.price}`}
+                        <>&#8377;</>{`${item.price}`}
                       </Typography>
                     </div>
                     <Typography variant="body2" color="text.secondary">
