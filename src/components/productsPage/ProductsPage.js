@@ -14,10 +14,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {Select, MenuItem, InputLabel} from "@mui/material"
+import { Link, Routes, Route} from "react-router-dom";
+import ProductDetails from "../productDetails/ProductDetails";
 
-
-
-function ProductsPage({isAdmin}){
+function ProductsPage({isLoggedIn, isAdmin, setLogin}){
   const [toggleValue, setToggleValue] = useState('All');
   const [selectValue, setSelectValue] = useState('default');
   const [products, setProducts] = useState([]);
@@ -69,16 +69,9 @@ function ProductsPage({isAdmin}){
     type === "toggle" ? setToggleValue(value) : setSelectValue(value);
   }
 
-  const handleClick=(id)=>{
-    const url = `http://localhost:8000/api/products/${id}`;
-    fetch(url)
-      .then(response=>response.json())
-      .then(res=>console.log(res));       
-  }
-
   return(
     <>
-      <NavigationBar setSearchValue={setName} searchValue={name} />
+      <NavigationBar isLoggedIn={isLoggedIn} setSearchValue={setName} searchValue={name} setLogin={setLogin} />
         <div id="toggle-btn-container">
           <ToggleButtonGroup exclusive={true} value={toggleValue} onChange={e=>handleChange(e,"toggle")}>
             {categories.map(item=>(
@@ -129,12 +122,14 @@ function ProductsPage({isAdmin}){
                   </CardContent>
                   <CardActions sx={{marginTop : "auto"}}>
                       <div className="btns-container">
-                        <Button
-                          variant="contained"
-                          size="small"
-                          onClick={()=>handleClick(item.productId)}
-                        >Buy
-                        </Button>
+                        <Link to={`/product/${item.productId}`}>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            // onClick={()=>handleClick(item.productId)}
+                          >Buy
+                          </Button>
+                        </Link>
                         {isAdmin && 
                         <ButtonGroup variant="string">
                           <Button size="small"><EditIcon /></Button>
