@@ -7,6 +7,7 @@ import InputBase from '@mui/material/InputBase';
 import  SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { ButtonGroup } from '@mui/material';
+import {Link} from "react-router-dom";
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -49,9 +50,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function NavigationBar({searchValue, setSearchValue}){
+function NavigationBar({isLoggedIn, searchValue, setSearchValue, setLogin}){
 
-  const [login, setLogin] = useState(false);
   const [admin, setAdmin] = useState(false);
 
   const handleChange=(event)=>{
@@ -59,6 +59,10 @@ function NavigationBar({searchValue, setSearchValue}){
     setSearchValue(value);
   }
 
+  const handleLogout=()=>{
+    setLogin(false);
+    localStorage.removeItem('auth');
+  }
   return(
   <AppBar position="fixed" color="primary">
     <Toolbar className="toolBar">
@@ -81,30 +85,36 @@ function NavigationBar({searchValue, setSearchValue}){
       </Search>
       <ButtonGroup>
         <Button variant="string">
+          <Link to="/">
           <Typography className="button-text">
             Home
           </Typography>
+          </Link>
         </Button>
-        {(admin && login) && <Button variant="string">
+        {(admin && isLoggedIn) && <Button variant="string">
           <Typography className="button-text">
             Add Product
           </Typography>
         </Button>}
-        {!login && 
+        {!isLoggedIn && 
           <div>
           <Button variant="string">
-            <Typography className="button-text">
-              Login
-            </Typography>
+            <Link to="/login">
+              <Typography className="button-text">
+                Login
+              </Typography>
+            </Link>
           </Button>
           <Button variant="string">
-            <Typography className="button-text">
-              SignUp
-            </Typography>
+            <Link to="/signup" >
+              <Typography className="button-text">
+                SignUp
+              </Typography>
+            </Link>
           </Button>
           </div>
         }
-        {login && <Button variant="contained" color="error">
+        {isLoggedIn && <Button variant="contained" color="error" onClick={handleLogout}>
           <Typography>
             Logout
           </Typography>
