@@ -73,7 +73,7 @@ const reducer = (state, action)=>{
   }
 }
 
-function OrderPage({isLoggedIn, setLogin}){
+function OrderPage({isLoggedIn, setLogin, isAdmin, setAdmin, handleAlert}){
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
   const [address, setAddress] = useState("");
@@ -85,8 +85,7 @@ function OrderPage({isLoggedIn, setLogin}){
   
   const {id} = useParams();
   const location = useLocation();
-  const quantity = location.search.split("=")[1];
-  // console.log(location.search.split("=")[1])
+  const quantity = parseInt(location.search.split("=")[1]);
 
   const navigate = useNavigate();
   
@@ -117,8 +116,8 @@ function OrderPage({isLoggedIn, setLogin}){
       const url = 'http://localhost:8000/api/orders';
       const data = {
         productId : localStorage.getItem('productId'),
-        addressId,
-        userId
+        addressId : address.id,
+        quantity
       }
       const options = {
         method : 'POST',
@@ -128,9 +127,19 @@ function OrderPage({isLoggedIn, setLogin}){
         },
         body : JSON.stringify(data)
       }
-      fetch(url)
-        .then(response=>response.json())
-        .then(res=>console.log(res));
+      fetch(url, options)
+        .then(response=>{
+          if(response.status === 201){
+            return response.json();
+          }
+          return null;
+        })
+        .then(res=>{
+          if(res){
+            handleAlert('order', true);
+            console.log("all fine with res");
+          }
+        });
         
     }
     let newSkipped = skipped;
@@ -171,11 +180,7 @@ function OrderPage({isLoggedIn, setLogin}){
 
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const handleClick=(event)=>{
+  const handleClick=async (event)=>{
     event.preventDefault();
     //check for name
     const nameRegex = /^[^\d]+$/;
@@ -247,19 +252,25 @@ function OrderPage({isLoggedIn, setLogin}){
       },
       body : JSON.stringify(data)
     };
-
-    fetch(url, options)
+    
+    const newAddress = {...data};
+    
+    await fetch(url, options)
       .then(response=>response.json())
       .then(res=>{
-        console.log(res);
-        setAddressId(res._id);
+        console.log("res ",res);
+        console.log("res._id ",res.address._id);
+        // setAddressId(res._id);
+        newAddress.id = res.address._id;
       });
-    setSavedAddresses([...savedAddresses, JSON.stringify(data)]);
+      debugger;
+    console.log("new address : ", newAddress);
+    setSavedAddresses([...savedAddresses, newAddress]);
   }
 
   return (
     <>
-    <NavigationBar isLoggedIn={isLoggedIn} setLogin={setLogin} />
+    <NavigationBar isLoggedIn={isLoggedIn} setLogin={setLogin} isAdmin={isAdmin} setAdmin={setAdmin} />
     <Box sx={{ width: '100%' }} id="order-container">
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
@@ -310,7 +321,9 @@ function OrderPage({isLoggedIn, setLogin}){
                     'name' : "address-select"
                   }}
                 >
-                  {savedAddresses.map(item=><MenuItem key={item} value={item}>{item}</MenuItem>)}
+                  {savedAddresses.map((item, index)=>{
+                    return <MenuItem key={item+index} value={item}>{`${item.name}...${item.city} -> ${item.state}`}</MenuItem>
+                  })}
                 </Select>
               </div>
               <Typography>-- OR --</Typography>
@@ -403,7 +416,7 @@ function OrderPage({isLoggedIn, setLogin}){
               </form>
             </div>
           </div>}
-          {activeStep === 2 && <ConfirmPage product={product} quantity={quantity} address={address} addressId={addressId} userId={userId} />}
+          {activeStep === 2 && <ConfirmPage product={product} quantity={quantity} address={JSON.stringify(address)} />}
           <Box id="stepper-btns" sx={{ display: 'flex', flexDirection: 'row' }}>
             <Button
               color="inherit"

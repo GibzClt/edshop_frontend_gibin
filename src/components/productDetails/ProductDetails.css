@@ -1,6 +1,6 @@
 #product-container{
   width : 100%;
-  height : max-content;
+  height : 80%;
   display : flex;
   margin-top: 5%;
   /* background-color: rgb(175, 211, 128); */
@@ -52,5 +52,6 @@
 }
 
 #product-name{
-  font-size : 65px;
+  font-size : 50px;
+  font-weight: 370;
 }
