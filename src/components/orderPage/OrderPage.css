@@ -6,7 +6,7 @@
 }
 #order-product-container{
   width : 100%;
-  height : max-content;
+  height : 80%;
   display: flex;
   box-sizing: border-box;
 }
@@ -39,7 +39,8 @@
 }
 
 #order-product-name{
-  font-size : 65px;
+  font-size : 50px;
+  font-weight: 370;
 }
 
 #address-container{

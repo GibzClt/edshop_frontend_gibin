@@ -32,7 +32,7 @@ const reducer = (state, action)=>{
   }
 }
 
-function SignIn({isLoggedIn, setLogin}){
+function SignIn({isLoggedIn, setLogin, isAdmin, setAdmin}){
 
   const [formData, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
@@ -84,6 +84,8 @@ function SignIn({isLoggedIn, setLogin}){
           console.log(res)
           if(res.isAuthenticated){
             setLogin(true);
+            setAdmin(res.isAdmin);
+            window.localStorage.setItem('admin', res.isAdmin);
             navigate('/');
           }else{
             setLogin(false);
@@ -97,7 +99,7 @@ function SignIn({isLoggedIn, setLogin}){
 
   return (
     <>
-      <NavigationBar isLoggedIn={isLoggedIn} setLogin={setLogin} />
+      <NavigationBar isLoggedIn={isLoggedIn} setLogin={setLogin} isAdmin={isAdmin} />
       <div className="signin-form-container">
         <div id="signin-header">
           <LockOutlinedIcon className="lock-logo" fontSize="large" />

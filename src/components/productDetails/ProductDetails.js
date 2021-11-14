@@ -5,7 +5,7 @@ import "./ProductDetails.css";
 import NavigationBar from "../../common/navigationBar/NavigationBar";
 
 
-function ProductDetails({isLoggedIn, setLogin}){
+function ProductDetails({isLoggedIn, setLogin, isAdmin, setAdmin}){
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(false);
@@ -51,7 +51,7 @@ function ProductDetails({isLoggedIn, setLogin}){
   }
   return (
     <>
-      <NavigationBar isLoggedIn={isLoggedIn} setLogin={setLogin} />
+      <NavigationBar isLoggedIn={isLoggedIn} setLogin={setLogin} isAdmin={isAdmin} setAdmin={setAdmin} />
       <div id="product-container">
         <div id="product-image-container">
           <img id="product-image" src={product.imageURL}/>

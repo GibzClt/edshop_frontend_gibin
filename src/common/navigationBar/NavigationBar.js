@@ -50,9 +50,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function NavigationBar({isLoggedIn, searchValue, setSearchValue, setLogin}){
-
-  const [admin, setAdmin] = useState(false);
+function NavigationBar({isLoggedIn, searchValue, setSearchValue, setLogin, isAdmin, setAdmin}){
 
   const handleChange=(event)=>{
     const {value} = event.target;
@@ -61,8 +59,13 @@ function NavigationBar({isLoggedIn, searchValue, setSearchValue, setLogin}){
 
   const handleLogout=()=>{
     setLogin(false);
+    if(isAdmin){
+      setAdmin(false);
+    }
     localStorage.removeItem('auth');
+    localStorage.removeItem('admin');
   }
+
   return(
   <AppBar position="fixed" color="primary">
     <Toolbar className="toolBar">
@@ -72,7 +75,7 @@ function NavigationBar({isLoggedIn, searchValue, setSearchValue, setLogin}){
           upGrad E-Shop
         </Typography>
       </div>
-      <Search id="search-bar">
+      {isLoggedIn && <Search id="search-bar">
         <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>
@@ -82,39 +85,44 @@ function NavigationBar({isLoggedIn, searchValue, setSearchValue, setLogin}){
           value={searchValue}
           onChange={handleChange}
         />
-      </Search>
+      </Search>}
       <ButtonGroup>
-        <Button variant="string">
+        {isLoggedIn && 
           <Link to="/">
-          <Typography className="button-text">
-            Home
-          </Typography>
-          </Link>
-        </Button>
-        {(admin && isLoggedIn) && <Button variant="string">
-          <Typography className="button-text">
-            Add Product
-          </Typography>
-        </Button>}
+            <Button variant="string">
+              <Typography className="button-text">
+                Home
+              </Typography>
+            </Button>
+          </Link>}
+        {(isAdmin && isLoggedIn) && 
+          <Link to="/addproduct">
+            <Button variant="string">
+              <Typography className="button-text">
+                  Add Product
+              </Typography>
+            </Button>
+          </Link>}
         {!isLoggedIn && 
           <div>
-          <Button variant="string">
             <Link to="/login">
-              <Typography className="button-text">
-                Login
-              </Typography>
+              <Button variant="string">
+                <Typography className="button-text">
+                  Login
+                </Typography>
+              </Button>
             </Link>
-          </Button>
-          <Button variant="string">
             <Link to="/signup" >
-              <Typography className="button-text">
-                SignUp
-              </Typography>
+              <Button variant="string">
+                <Typography className="button-text">
+                  SignUp
+                </Typography>
+              </Button>
             </Link>
-          </Button>
           </div>
         }
-        {isLoggedIn && <Button variant="contained" color="error" onClick={handleLogout}>
+        {isLoggedIn && 
+        <Button variant="contained" color="error" onClick={handleLogout}>
           <Typography>
             Logout
           </Typography>
